@@ -48,7 +48,7 @@ Sharks are important to marine ecosystems. Let's protect sharks and keep our oce
 
 ## 👨‍💻 Author
 
-Created by me as a web development project.
+Created by me as a software engineer project.
 
 ---
 
