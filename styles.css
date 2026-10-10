@@ -1,0 +1,184 @@
+
+/* Basic page styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #061827;
+    color: white;
+    line-height: 1.6;
+}
+
+/* Navigation bar */
+header {
+    background-color: #03111f;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    color: #00d9ff;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #00d9ff;
+}
+
+/* Hero section */
+.hero {
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px 20px;
+
+    background:
+        linear-gradient(
+            rgba(0, 15, 30, 0.65),
+            rgba(0, 15, 30, 0.85)
+        ),
+        url("https://images.unsplash.com/photo-1560275619-4662e36fa65c?auto=format&fit=crop&w=1600&q=80")
+        center/cover no-repeat;
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.hero h2 {
+    font-size: 42px;
+    color: #00d9ff;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #00bfe8;
+    color: #03111f;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 25px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: white;
+    transform: scale(1.05);
+}
+
+/* About section */
+.about {
+    padding: 60px 10%;
+    text-align: center;
+}
+
+.about h2,
+.facts h2 {
+    color: #00d9ff;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.about p {
+    max-width: 750px;
+    margin: auto;
+    font-size: 17px;
+}
+
+/* Shark facts and picture cards */
+.facts {
+    padding: 50px 8%;
+    text-align: center;
+    background-color: #0a2235;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.card {
+    background-color: #102f46;
+    border: 1px solid #087da5;
+    border-radius: 15px;
+    width: 280px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.card h3 {
+    color: #00d9ff;
+    margin: 18px 12px 10px;
+}
+
+.card p {
+    padding: 0 18px 22px;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px #00bfe8;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #03111f;
+    color: #9ecbd8;
+}
+
+/* Mobile-friendly design */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    nav a {
+        margin: 0 8px;
+    }
+
+    .hero h2 {
+        font-size: 30px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 350px;
+    }
+}
+
+
