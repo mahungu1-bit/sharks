@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Love You ❤️</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: #030003;
+    color: #ff1744;
+    font-family: monospace;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+}
+
+h1 {
+    position: fixed;
+    top: 15px;
+    width: 100%;
+    text-align: center;
+    font-size: clamp(15px, 3vw, 25px);
+    color: #ff4d6d;
+    text-shadow: 0 0 8px red, 0 0 25px #ff1744;
+    letter-spacing: 3px;
+}
+
+#message {
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    color: #ff8fa3;
+    font-size: clamp(12px, 2vw, 17px);
+    text-shadow: 0 0 12px red;
+}
+</style>
+</head>
+
+<body>
+<h1>♡ LOVE HAS NO LANGUAGE ♡</h1>
+<canvas id="heart"></canvas>
+<div id="message">I LOVE YOU ❤️</div>
+
+<script>
+const canvas = document.getElementById("heart");
+const ctx = canvas.getContext("2d");
+const footer = document.getElementById("message");
+
+const words = [
+    "I LOVE YOU",
+    "TE AMO",
+    "JE T'AIME",
+    "TI AMO",
+    "ICH LIEBE DICH",
+    "愛してる",
+    "사랑해",
+    "我爱你",
+    "Я ТЕБЯ ЛЮБЛЮ",
+    "أحبك",
+    "NAKUPENDA",
+    "TE QUIERO",
+    "EU TE AMO",
+    "SENI SEVIYORUM",
+    "KOCHAM CIĘ",
+    "VOLIM TE",
+    "愛してるよ",
+    "Σ' ΑΓΑΠΩ",
+    "IK HOU VAN JOU",
+    "HINDI: MAIN TUMSE PYAAR KARTA HOON",
+    "I LOVE YOU FOREVER"
+];
+
+let W, H, dpr, particles = [], frame = 0;
+
+function resize() {
+    dpr = window.devicePixelRatio || 1;
+    W = innerWidth;
+    H = innerHeight;
+
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    particles = [];
+
+    // Arrange words in rows inside the heart.
+    const rows = 17;
+    const scale = Math.min(W / 36, H / 30);
+
+    for (let r = 0; r < rows; r++) {
+        const y = -0.85 + r * 1.7 / (rows - 1);
+        const maxX = Math.sqrt(Math.max(0, 1 - Math.abs(y))) * 1.25;
+
+        const count = Math.max(1, Math.floor(maxX * 5));
+
+        for (let c = -count; c <= count; c++) {
+            const x = W / 2 + c * scale * 1.55;
+            const py = H / 2 - y * scale * 13;
+
+            if (x > 5 && x < W - 5) {
+                particles.push({
+                    x,
+                    y: py,
+                    word: words[Math.floor(Math.random() * words.length)],
+                    size: Math.max(7, Math.min(12, W / 100)),
+                    phase: Math.random() * Math.PI * 2,
+                    speed: 0.015 + Math.random() * 0.035
+                });
+            }
+        }
+    }
+}
+
+function heartPoint(t) {
+    return {
+        x: 16 * Math.sin(t) ** 3,
+        y: 13 * Math.cos(t)
+           - 5 * Math.cos(2*t)
+           - 2 * Math.cos(3*t)
+           - Math.cos(4*t)
+    };
+}
+
+function draw() {
+    requestAnimationFrame(draw);
+    frame += 0.025;
+
+    ctx.fillStyle = "rgba(3, 0, 3, 0.28)";
+    ctx.fillRect(0, 0, W, H);
+
+    const scale = Math.min(W / 38, H / 36);
+    const pulse = 1 + Math.sin(frame * 2) * 0.025;
+
+    // Draw a bright neon heart outline.
+    ctx.beginPath();
+
+    for (let i = 0; i <= 300; i++) {
+        const p = heartPoint(i / 300 * Math.PI * 2);
+        const x = W / 2 + p.x * scale * pulse;
+        const y = H / 2 - p.y * scale * pulse;
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+
+    ctx.closePath();
+    ctx.strokeStyle = "#ff1744";
+    ctx.lineWidth = 2;
+    ctx.shadowColor = "#ff003c";
+    ctx.shadowBlur = 25;
+    ctx.stroke();
+
+    // Show readable love messages in different languages.
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    particles.forEach(p => {
+        const brightness = 0.55 + 0.45 *
+            Math.sin(frame * 2 + p.phase);
+
+        ctx.globalAlpha = brightness;
+        ctx.font = `${p.size}px monospace`;
+        ctx.fillStyle = brightness > 0.88 ? "#ffffff" : "#ff4165";
+        ctx.shadowColor = "#ff003c";
+        ctx.shadowBlur = 10 + brightness * 12;
+
+        ctx.fillText(p.word, p.x, p.y + Math.sin(frame + p.phase) * 2);
+    });
+
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+    ctx.textAlign = "center";
+    ctx.font = "bold 17px monospace";
+    ctx.fillStyle = "white";
+    ctx.shadowColor = "#ff1744";
+    ctx.shadowBlur = 20;
+    ctx.fillText("I LOVE YOU", W / 2, H / 2);
+
+    ctx.shadowBlur = 0;
+
+    footer.textContent = words[
+        Math.floor(frame / 2) % words.length
+    ] + " ❤️";
+}
+
+window.addEventListener("resize", resize);
+resize();
+draw();
+</script>
+</body>
+</html>
+
